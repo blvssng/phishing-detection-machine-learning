@@ -4,6 +4,24 @@ A machine-learning project that classifies websites as phishing or legitimate. I
 
 > **Project status:** Data preparation and initial model comparisons are complete. Further checks on feature reliance and generalisability are still needed.
 
+## Interactive Dashboard
+
+[Open the interactive dashboard](https://claude.ai/artifact/KVd1quP2wnz7hm2QQcm8Hx#no_universal_links) to explore the dataset, test-set model results, feature importance, and the effect of removing `URLSimilarityIndex`. The dashboard is hosted on Claude, so access may depend on its sharing settings.
+
+### Dashboard previews
+
+**Project overview and test-set results**
+
+![Dashboard overview and test-set results](images/dashboard-overview.png)
+
+**Model comparison and error-cost illustrations**
+
+![Dashboard model comparison and error-cost illustrations](images/dashboard-results.png)
+
+**Feature reliance and model sensitivity**
+
+![Dashboard feature reliance and model sensitivity](images/dashboard-features.png)
+
 ## Research Question
 
 Can models identify phishing websites from URL and webpage features, and which model catches the most phishing sites while keeping false alarms low?
@@ -28,7 +46,7 @@ Can models identify phishing websites from URL and webpage features, and which m
 
 ## Data Preparation
 
-- **Label handling:** In the source data, label `1` means legitimate and label `0` means phishing. A new `is_phishing` column was created with `1` for phishing and `0` for legitimate, making phishing the positive class.
+- **Label handling:** In the source data, label `1` means legitimate and label `0` means phishing. A new `is_phishing` column was created with `1` for phishing and `0` for legitimate.
 - **Quality checks:** Duplicate rows and missing values were checked; none were found, so all 235,795 rows were retained.
 - **Feature selection:** Numeric columns were retained for modelling. Text fields such as the raw URL and domain, as well as the filename field documented as ignorable, were excluded.
 - **Leakage prevention:** Both label columns were excluded from the model features.
@@ -56,8 +74,8 @@ Evaluated on a held-out test set of 47,159 URLs (20,189 phishing and 26,970 legi
 
 - Both models using all features performed near-perfectly on the test set: the random forest made no errors, while logistic regression missed 5 phishing URLs and wrongly flagged no legitimate URLs.
 - Feature importance was distributed across multiple features. The most important included `URLSimilarityIndex`, `NoOfExternalRef`, `LineOfCode`, `NoOfSelfRef` and `NoOfImage`.
-- After removing `URLSimilarityIndex`, the random forest made 10 errors in total: 6 phishing URLs were missed and 4 legitimate URLs were wrongly flagged. This corresponds to approximately 99.98% accuracy, 99.97% phishing recall and 99.98% phishing precision on this test set.
-- In a banking context, the error types have different consequences: a missed phishing site presents a security risk, while a legitimate site wrongly flagged can inconvenience customers. The error counts were low in this test, but require validation on independent data before drawing real-world conclusions.
+- After removing `URLSimilarityIndex`, the random forest made 10 errors in total: 6 phishing URLs were missed and 4 legitimate URLs were wrongly flagged. This corresponds to approximately 99.98% accuracy.
+- In a banking context, the error types have different consequences: a missed phishing site presents a security risk, while a legitimate site wrongly flagged can inconvenience customers. The error costs shown in the dashboard are illustrative assumptions, not measured financial estimates.
 
 ## Limitations
 
@@ -98,7 +116,7 @@ phishing-detection-machine-learning/
 ├── data/          # data notes; large raw files may be excluded
 ├── notebooks/     # exploration and modelling
 ├── src/           # reusable scripts
-└── images/        # saved charts
+└── images/        # saved charts and dashboard screenshots
 ```
 
 ## Author
