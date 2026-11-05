@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="657" height="423" viewBox="0 0 657 423" role="img" aria-labelledby="title desc">
+  <title id="title">Top 10 feature importances (Random Forest)</title>
+  <desc id="desc">Horizontal bar chart ranking feature importance. URLSimilarityIndex is highest, followed by NoOfExternalRef, LineOfCode, NoOfSelfRef, NoOfImage, NoOfJS, NoOfCSS, HasSocialNet, HasCopyrightInfo, and IsHTTPS.</desc>
+  <rect width="100%" height="100%" fill="#fff"/>
+  <text x="399" y="24" text-anchor="middle" font-family="Arial, sans-serif" font-size="18" fill="#111">Top 10 feature importances (Random Forest)</text>
+  <g font-family="Arial, sans-serif" font-size="14" fill="#111">
+    <text x="140" y="56" text-anchor="end">URLSimilarityIndex</text>
+    <text x="140" y="98" text-anchor="end">NoOfExternalRef</text>
+    <text x="140" y="140" text-anchor="end">LineOfCode</text>
+    <text x="140" y="182" text-anchor="end">NoOfSelfRef</text>
+    <text x="140" y="224" text-anchor="end">NoOfImage</text>
+    <text x="140" y="266" text-anchor="end">NoOfJS</text>
+    <text x="140" y="308" text-anchor="end">NoOfCSS</text>
+    <text x="140" y="350" text-anchor="end">HasSocialNet</text>
+    <text x="140" y="392" text-anchor="end">HasCopyrightInfo</text>
+    <text x="140" y="434" text-anchor="end">IsHTTPS</text>
+  </g>
+  <g fill="#287db8">
+    <rect x="151" y="40" width="473" height="18"/>
+    <rect x="151" y="82" width="439" height="18"/>
+    <rect x="151" y="124" width="411" height="18"/>
+    <rect x="151" y="166" width="279" height="18"/>
+    <rect x="151" y="208" width="221" height="18"/>
+    <rect x="151" y="250" width="187" height="18"/>
+    <rect x="151" y="292" width="86" height="18"/>
+    <rect x="151" y="334" width="85" height="18"/>
+    <rect x="151" y="376" width="71" height="18"/>
+    <rect x="151" y="418" width="63" height="18"/>
+  </g>
+  <g stroke="#111" stroke-width="1" fill="none">
+    <path d="M151 32V402H647"/>
+    <path d="M151 402H647V32"/>
+    <path d="M151 402v5 M218 402v5 M284 402v5 M351 402v5 M417 402v5 M484 402v5 M550 402v5 M617 402v5"/>
+  </g>
+  <g font-family="Arial, sans-serif" font-size="13" fill="#111" text-anchor="middle">
+    <text x="151" y="419">0.000</text>
+    <text x="218" y="419">0.025</text>
+    <text x="284" y="419">0.050</text>
+    <text x="351" y="419">0.075</text>
+    <text x="417" y="419">0.100</text>
+    <text x="484" y="419">0.125</text>
+    <text x="550" y="419">0.150</text>
+    <text x="617" y="419">0.175</text>
+  </g>
+</svg>
