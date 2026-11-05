@@ -2,7 +2,7 @@
 
 A machine-learning project that classifies websites as phishing or legitimate. It explores how data-driven detection could support defensive security efforts in settings such as banking and FinTech.
 
-> **Project status:** Data preparation is complete, and initial model comparisons have been run. Further checks on feature reliance and generalisability are still needed.
+> **Project status:** Data preparation and initial model comparisons are complete. Further checks on feature reliance and generalisability are still needed.
 
 ## Research Question
 
@@ -28,7 +28,7 @@ Can models identify phishing websites from URL and webpage features, and which m
 
 ## Data Preparation
 
-- **Label handling:** In the source data, label `1` means legitimate and label `0` means phishing. A new `is_phishing` column was created with `1` for phishing and `0` for legitimate, making phishing the positive class. Recall therefore represents the share of phishing sites correctly identified.
+- **Label handling:** In the source data, label `1` means legitimate and label `0` means phishing. A new `is_phishing` column was created with `1` for phishing and `0` for legitimate, making phishing the positive class.
 - **Quality checks:** Duplicate rows and missing values were checked; none were found, so all 235,795 rows were retained.
 - **Feature selection:** Numeric columns were retained for modelling. Text fields such as the raw URL and domain, as well as the filename field documented as ignorable, were excluded.
 - **Leakage prevention:** Both label columns were excluded from the model features.
@@ -37,10 +37,10 @@ Can models identify phishing websites from URL and webpage features, and which m
 ## Methodology
 
 - The data was split into training (80%) and test (20%) sets using stratification to preserve the class proportions. A fixed random seed of `42` was used for reproducibility.
-- Two baseline models were compared: logistic regression with feature scaling, and random forest.
-- Evaluation was performed on the held-out test set using precision, recall, F1, PR-AUC and a confusion matrix.
+- Models compared: logistic regression with feature scaling, random forest, and random forest without `URLSimilarityIndex`.
+- Evaluation was performed on the held-out test set. Error counts are shown below; performance metrics should be interpreted in light of the dataset limitations discussed later.
 
-## Results (initial model comparison)
+## Results
 
 Evaluated on a held-out test set of 47,159 URLs (20,189 phishing and 26,970 legitimate).
 
@@ -48,8 +48,29 @@ Evaluated on a held-out test set of 47,159 URLs (20,189 phishing and 26,970 legi
 |---|---:|---:|
 | Logistic Regression | 5 | 0 |
 | Random Forest | 0 | 0 |
+| Random Forest without `URLSimilarityIndex` | 6 | 4 |
 
-Both models performed near-perfectly on this test set. Since the dataset is known to be highly separable, these results may overstate real-world performance. Further checks on feature reliance and validation beyond this dataset are needed before drawing conclusions about deployment.
+![Top 10 feature importances](images/feature_importance.png)
+
+## Key Findings
+
+- Both models using all features performed near-perfectly on the test set: the random forest made no errors, while logistic regression missed 5 phishing URLs and wrongly flagged no legitimate URLs.
+- Feature importance was distributed across multiple features. The most important included `URLSimilarityIndex`, `NoOfExternalRef`, `LineOfCode`, `NoOfSelfRef` and `NoOfImage`.
+- After removing `URLSimilarityIndex`, the random forest made 10 errors in total: 6 phishing URLs were missed and 4 legitimate URLs were wrongly flagged. This corresponds to approximately 99.98% accuracy, 99.97% phishing recall and 99.98% phishing precision on this test set.
+- In a banking context, the error types have different consequences: a missed phishing site presents a security risk, while a legitimate site wrongly flagged can inconvenience customers. The error counts were low in this test, but require validation on independent data before drawing real-world conclusions.
+
+## Limitations
+
+- Scores this high likely overstate real-world performance. The data comes from a single public source, and legitimate and phishing pages may have been collected differently.
+- Many of the strongest features describe webpage content, so they require fetching the page before a URL can be classified.
+- The test set comes from the same collection as the training set, so it does not measure performance against new or AI-assisted phishing techniques.
+- Feature importance indicates which features the model used; it does not show that those features cause a site to be phishing.
+
+## Next Steps
+
+- Test on a separate phishing dataset to check generalisation.
+- Try URL-only features to simulate classifying a link before visiting it.
+- Add model explainability (for example, SHAP) and a short comparison with other models.
 
 ## Workflow
 
@@ -57,16 +78,9 @@ Both models performed near-perfectly on this test set. Since the dataset is know
 2. Clean the data and document preparation decisions.
 3. Explore feature distributions and relationships.
 4. Split the data into stratified training and test sets.
-5. Train logistic regression and random forest baselines.
+5. Train and compare baseline models.
 6. Evaluate on the held-out test set.
-7. Review feature importance and summarise the results and limitations.
-
-## Evaluation Notes and Limitations
-
-- Accuracy alone can be misleading, so results should be interpreted alongside precision, recall, F1, PR-AUC and the confusion matrix.
-- A strong result on this held-out split does not establish that the models will perform similarly on new data. The dataset's strong `URLSimilarityIndex` signal may contribute to high scores, and the models have not yet been validated on an independent or time-separated dataset.
-- The analysis uses one public dataset, which may not represent current or evolving phishing techniques, including AI-assisted phishing.
-- The dataset does not establish whether AI was used to create a particular phishing site. This project therefore does not make claims about AI causing changes in phishing activity.
+7. Review feature importance and summarise results and limitations.
 
 ## Responsible Use
 
