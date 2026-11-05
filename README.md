@@ -12,15 +12,15 @@ A machine-learning project that classifies websites as phishing or legitimate. I
 
 **Project overview and test-set results**
 
-![Dashboard overview and test-set results](images/dashboard-overview.png)
+![Dashboard overview and test-set results](images/images:dashboard-overview.png)
 
 **Model comparison and error-cost illustrations**
 
-![Dashboard model comparison and error-cost illustrations](images/dashboard-results.png)
+![Dashboard model comparison and error-cost illustrations](images/images:dashboard-results.png)
 
 **Feature reliance and model sensitivity**
 
-![Dashboard feature reliance and model sensitivity](images/dashboard-features.png)
+![Dashboard feature reliance and model sensitivity](images/images:dashboard-features.png)
 
 ## Research Question
 
@@ -46,7 +46,7 @@ Can models identify phishing websites from URL and webpage features, and which m
 
 ## Data Preparation
 
-- **Label handling:** In the source data, label `1` means legitimate and label `0` means phishing. A new `is_phishing` column was created with `1` for phishing and `0` for legitimate.
+- **Label handling:** In the source data, label `1` means legitimate and label `0` means phishing. A new `is_phishing` column was created with `1` for phishing and `0` for legitimate, making phishing the positive class for evaluation.
 - **Quality checks:** Duplicate rows and missing values were checked; none were found, so all 235,795 rows were retained.
 - **Feature selection:** Numeric columns were retained for modelling. Text fields such as the raw URL and domain, as well as the filename field documented as ignorable, were excluded.
 - **Leakage prevention:** Both label columns were excluded from the model features.
@@ -68,14 +68,14 @@ Evaluated on a held-out test set of 47,159 URLs (20,189 phishing and 26,970 legi
 | Random Forest | 0 | 0 |
 | Random Forest without `URLSimilarityIndex` | 6 | 4 |
 
-![Top 10 feature importances](images/feature_importance.png)
+![Top 10 feature importances](images/feature_importance.svg)
 
 ## Key Findings
 
 - Both models using all features performed near-perfectly on the test set: the random forest made no errors, while logistic regression missed 5 phishing URLs and wrongly flagged no legitimate URLs.
 - Feature importance was distributed across multiple features. The most important included `URLSimilarityIndex`, `NoOfExternalRef`, `LineOfCode`, `NoOfSelfRef` and `NoOfImage`.
 - After removing `URLSimilarityIndex`, the random forest made 10 errors in total: 6 phishing URLs were missed and 4 legitimate URLs were wrongly flagged. This corresponds to approximately 99.98% accuracy.
-- In a banking context, the error types have different consequences: a missed phishing site presents a security risk, while a legitimate site wrongly flagged can inconvenience customers. The error costs shown in the dashboard are illustrative assumptions, not measured financial estimates.
+- In a banking context, the error types have different consequences: a missed phishing site presents a security risk, while a legitimate site wrongly flagged can inconvenience customers. The error costs shown in the dashboard are illustrative assumptions rather than measured financial estimates.
 
 ## Limitations
 
@@ -116,7 +116,8 @@ phishing-detection-machine-learning/
 ├── data/          # data notes; large raw files may be excluded
 ├── notebooks/     # exploration and modelling
 ├── src/           # reusable scripts
-└── images/        # saved charts and dashboard screenshots
+├── images/        # saved charts and dashboard screenshots
+└── docs/          # optional static web exports
 ```
 
 ## Author
